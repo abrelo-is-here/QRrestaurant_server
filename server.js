@@ -68,7 +68,7 @@ io.on("connection", (socket) => {
 // Middlewares
 app.use(cors({
   origin: [
-    `${frontendUrl}`
+    `https://qr-food-restaurant-client.vercel.app`
   ],
   credentials: true
 }));
