@@ -15,7 +15,7 @@ export const generateQRCode = async (req, res) => {
     }
 
     // 🔥 IMPORTANT: QR now points to backend scan endpoint
-    const url = `https://qr-food-restaurant-client.vercel.app/api/qr/scan?restaurantId=${restaurantId}&table=${tableNumber}`;
+    const url = `https://qrrestaurant-server.onrender.com/api/qr/scan?restaurantId=${restaurantId}&table=${tableNumber}`;
 
     const qrImage = await QRCode.toDataURL(url);
 
