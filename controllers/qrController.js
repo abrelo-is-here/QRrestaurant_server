@@ -58,12 +58,16 @@ export const scanQr = async (req, res) => {
       active: true
     });
 
-   res.cookie("qrSession", sessionId, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        maxAge: 10 * 60 * 1000
-      });
+   console.log("Created session:", sessionId);
+
+res.cookie("qrSession", sessionId, {
+  httpOnly: false,
+  secure: false,
+  sameSite: "lax",
+  maxAge: 10 * 60 * 1000,
+});
+
+console.log("Cookie sent");
 
     return res.redirect(
       `https://qr-food-restaurant-client.vercel.app/menu/${restaurantId}?table=${table}`
