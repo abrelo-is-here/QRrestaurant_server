@@ -67,7 +67,7 @@ res.cookie("qrSession", sessionId, {
   maxAge: 10 * 60 * 1000,
 });
 
-console.log("Cookie sent");
+console.log("Response cookies:", res.getHeaders()["set-cookie"]);
 
     return res.redirect(
       `https://qr-food-restaurant-client.vercel.app/menu/${restaurantId}?table=${table}`
