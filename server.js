@@ -34,7 +34,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
      origin: [
-      `${frontendUrl}`
+      `https://qr-food-restaurant-client.vercel.app`
   ], // your frontend
     methods: ["GET", "POST"]
   }
