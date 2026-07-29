@@ -62,8 +62,8 @@ export const scanQr = async (req, res) => {
 
 res.cookie("qrSession", sessionId, {
   httpOnly: false,
-  secure: true,
-  sameSite: "none",
+  secure: false,
+  sameSite: "lax",
   maxAge: 10 * 60 * 1000,
 });
 
