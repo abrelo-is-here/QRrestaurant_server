@@ -41,16 +41,11 @@ export const scanQr = async (req, res) => {
       return res.status(400).json({ message: "Invalid QR scan" });
     }
 
-    await Session.deleteMany({
-      restaurantId,
-      tableNumber: table,
-      active: true
-    });
-
     const sessionId = crypto.randomBytes(32).toString("hex");
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    // Extend expiry from 10 mins to 3 hours for dining sessions
+    const expiresAt = new Date(Date.now() + 3 * 60 * 60 * 1000);
 
-    const session = await Session.create({
+    await Session.create({
       sessionId,
       restaurantId,
       tableNumber: table,
@@ -58,19 +53,21 @@ export const scanQr = async (req, res) => {
       active: true
     });
 
-   console.log("Created session:", sessionId);
+    console.log("Created session:", sessionId);
 
-res.cookie("qrSession", sessionId, {
-  httpOnly: true,
-  secure: true,
-  sameSite: "none",
-  maxAge: 10 * 60 * 1000,
-});
+    // Keep cookie for browsers that support it
+    res.cookie("qrSession", sessionId, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 3 * 60 * 60 * 1000,
+    });
 
-console.log("Response cookies:", res.getHeaders()["set-cookie"]);
+    const clientUrl = process.env.CLIENT_URL || "https://qr-food-restaurant-client.vercel.app";
 
+    // 🔥 CRITICAL FIX: Append sessionId in the redirect URL
     return res.redirect(
-      `https://qr-food-restaurant-client.vercel.app/menu/${restaurantId}?table=${table}`
+      `${clientUrl}/menu/${restaurantId}?table=${table}&sessionId=${sessionId}`
     );
 
   } catch (error) {
