@@ -26,3 +26,13 @@ export const verifyQrSession = async (req, res, next) => {
     return res.status(500).json({ message: err.message });
   }
 };
+
+
+
+export const verifyQr = (req, res) => {
+  return res.status(200).json({
+    valid: true,
+    restaurantId: req.qrSession.restaurantId,
+    tableNumber: req.qrSession.tableNumber
+  });
+};
